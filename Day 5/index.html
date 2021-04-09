@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Day 5 - Local Storage </title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./history.js"></script>
+    <script src="./TableHeader.js"></script>
+    <script src="./Table.js"></script>
+    <script src="./RadioButton.js"></script>
+    <script src="./product-model.js"></script>
+    <script src="./product-controller.js"></script>
+    <script src="./validator.js"></script>
+    <script>
+        window.onload = initialize
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Product ID</td>
+                        <td><input type="text" id="product-id"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Product Name</td>
+                        <td><input type="text" id="product-name"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Product Category</td>
+                        <td id="product-category-data">
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Product Manufacturer</td>
+                        <td id="product-manfac-data">
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Product Description</td>
+                        <td><input type="text" id="product-desc"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Product Price</td>
+                        <td><input type="text" id="product-price"></td>
+                    </tr>
+
+                    <tr>
+                        <td><button id="product-add">Save</button></td>
+                        <td><button id="clear">Clear</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div>
+                <button id="addEmp">Save</button>
+                <button id="updateEmp">Update</button>
+                <button id="deleteEmp">Delete</button>
+                <button id="clear">Clear</button>
+            </div> -->
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Search</td>
+                            <td><input type="text" name="Search" id="product-search"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div id="product-table" class="product-data">
+                
+            </div>
+            <div id="result" class="d-none">
+
+            </div>
+        </div>
+        <div id="history">
+            <table>
+                <thead>
+                    <th>Log</th>
+                    <!-- <th>Action</th> -->
+                </thead>
+                <tbody id="history-log">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

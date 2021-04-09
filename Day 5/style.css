@@ -1,0 +1,158 @@
+body {
+    background: #1b1b1b;
+    color: #fff
+}
+
+.container {
+    margin: 50px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form {
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+td {
+    padding: 10px;
+}
+
+.product-data table {
+    width: 100%;
+}
+
+.product-data th{
+    border: 1px solid;
+    background: #fff;
+    color: #000;
+}
+
+.product-data tr {
+    text-align: center;
+}
+
+.product-data td{
+    border:2px solid;    
+}
+
+th {
+    border: 1px solid;    
+    background: #fff;
+    color: #000;
+}
+
+tr {
+    text-align: right;
+}
+
+input,
+select {
+    height: 30px;
+    /* width: 250px; */
+    font-size: 1.3rem;
+}
+
+
+button {
+    background: #000;
+    color: #fff;
+    width: 150px;
+    height: 50px;
+    margin-top: 50px;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.delete-button {
+    width: 30px;
+    height: 30px;
+    margin-top: 0px;
+    margin-left: 10px;
+    border-radius: 40px;
+    font-size: 1rem;
+    text-align: center;
+    background: red;
+}
+
+.update-button {
+    width: 30px;
+    height: 30px;
+    margin-top: 0px;
+    margin-left: 10px;
+    border-radius: 40px;
+    font-size: 1rem;
+    text-align: center;
+    background: green;
+}
+.delete-button-wrapper {
+    text-align: left;
+}
+
+#result {
+    border:1px solid;
+    border-radius: 5px;
+    width: 500px;
+    height: 40px;
+}
+
+.product-data {
+    padding: 20px;
+}
+
+#product-category-data{
+    display: flex;
+    font-size: 1rem;
+}
+#product-manfac-data {
+    display: flex;
+    font-size: 1rem;
+}
+
+.success {
+    background: #28a745;
+}
+
+.danger{
+    background: #dc3545;
+}
+
+.d-none {
+    display: none;
+}
+
+#history {
+    width: 100%;
+}
+
+#history tbody{
+    font-size: 1rem;
+}
+
+#history table {
+    width: 90%;
+}
+
+#history th{
+    border: 1px solid;
+    background: #fff;
+    color: #000;
+}
+
+#history tr {
+    text-align: center;
+}
+
+#history td{
+    border:2px solid;    
+}
+
+#history-log {
+    word-break: break-all;
+}

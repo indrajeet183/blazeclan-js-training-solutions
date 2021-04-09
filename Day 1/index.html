@@ -1,0 +1,109 @@
+<head>
+    <title>JS Training</title>
+    <script>
+        // define global variables
+        var previousVal = ""
+        var operator = ""
+        var historyCalc = ""
+
+        window.onload = function () {
+            //get all buttons by tagName and iterate over each button
+            var btns = document.getElementsByTagName('button')
+            for (var btn of btns) {
+                //add eventListener to all buttons
+                btn.addEventListener('click', function (e) {
+                    // console.log('Event Object',e)
+                    //get result input data in tempVal and add append new data to result 
+                    var tempVal = document.getElementById('res').value
+                    document.getElementById('res').value = tempVal + e.target.innerText
+
+                    //don't want equal operator on my history input
+                    if(e.target.innerText !== '=') {
+                        historyCalc = historyCalc + e.target.innerText
+                        document.getElementById('previous').value = historyCalc
+                    }
+                    
+                    //if button if operator then copy value to global variable
+                    if (e.target.id === 'btnAdd' || e.target.id === 'btnSub' ||
+                        e.target.id === 'btnMul' || e.target.id === 'btnDiv') {
+                        previousVal = parseInt(tempVal)
+                        document.getElementById('res').value = ""
+                        operator = e.target.innerText
+                    }
+
+                    // handle on button clear and equal
+                    if (e.target.id === 'btnClr') {
+                        document.getElementById('res').value = ""
+                        document.getElementById('previous').value = ""
+                        historyCalc = ""
+                        previousVal = 0
+                    } else if (e.target.id === 'btnEq') {
+                        // handle calculations based on operator
+                        var result = 0
+                        switch (operator) {
+                            case "+": result = previousVal + parseInt(tempVal); break;
+                            case "-": result = previousVal - parseInt(tempVal); break;
+                            case "X": result = previousVal * parseInt(tempVal); break;
+                            case "/": result = previousVal / parseInt(tempVal); break;
+                        }
+                        //assign the result
+                        if(result == NaN) result = 0
+                        document.getElementById('res').value = result
+                        console.log(`Result ${result}`)
+                    }
+                })
+            }
+        }
+    </script>
+    <style>
+        table {
+            margin: 0 auto;            
+        }
+        button {
+            width: 100px;
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td colspan="4">
+                    <input id="previous" disabled type="text" style="width:100%;height:50px;" type="text">
+                    <input id="res" type="text" style="width:100%;height:50px;" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td><button> 7</td>
+                <td><button> 8</td>
+                <td><button> 9</td>
+                <td><button id="btnDiv"> /</td>
+            </tr>
+            <tr>
+                <td><button> 4</td>
+                <td><button> 5</td>
+                <td><button> 6</td>
+                <td><button id="btnMul"> X</td>
+            </tr>
+            <tr>
+                <td><button> 1</td>
+                <td><button> 2</td>
+                <td><button> 3</td>
+                <td><button id="btnSub"> -</td>
+            </tr>
+            <tr>
+                <td><button> 0</td>
+                <td><button> 1</td>
+                <td><button id="btnClr"> CE</td>
+                <td><button id="btnAdd"> +</td>
+            </tr>
+            <tr>
+                <td colspan="4"><button style="width:100%;" id="btnEq">=</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
