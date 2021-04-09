@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Day 7 - Styles and CSS</title>
+    <style>
+        body {
+            font-size: 30px;
+            margin: 50px;
+        }
+
+        .highlight-row {
+            background-color: cyan;
+            color:yellow;
+            font-family: cursive;
+        }
+    </style>
+    <script>
+
+        window.onload = function () {
+            var rows = document.getElementsByTagName('tr')
+
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].addEventListener('mouseenter', function (e) {
+                    e.target.className = 'highlight-row'                    
+                })
+
+                rows[i].addEventListener('mouseleave', function (e) {
+                    e.target.className = ''                    
+                })
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <table border="2">
+        <thead>
+            <tr>
+                <td>EmpNo</td>
+                <td>EmpName</td>
+                <td>Department</td>
+                <td>Salary</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>101</td>
+                <td>James</td>
+                <td>IT</td>
+                <td>5000</td>
+            </tr>
+
+            <tr>
+                <td>105</td>
+                <td>Marry</td>
+                <td>HR</td>
+                <td>3000</td>
+            </tr>
+
+            <tr>
+                <td>110</td>
+                <td>Daniel</td>
+                <td>SALES</td>
+                <td>4500</td>
+            </tr>
+
+            <tr>
+                <td>115</td>
+                <td>Maria</td>
+                <td>SUPPORT</td>
+                <td>2500</td>
+            </tr>
+
+            <tr>
+                <td>120</td>
+                <td>Dave</td>
+                <td>SALES</td>
+                <td>6500</td>
+            </tr>
+
+            <tr>
+                <td>125</td>
+                <td>Jessica</td>
+                <td>HR</td>
+                <td>3500</td>
+            </tr>
+
+            <tr>
+                <td>130</td>
+                <td>Todd</td>
+                <td>IT</td>
+                <td>8500</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

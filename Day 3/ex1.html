@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Day 3 - Exercise 1 Date Comparison</title>
+    <style>
+        body {
+            margin: 30px;
+            background:#1b1b1b;
+            color:#fff
+        }
+
+        .input-group,
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        input {
+            width: 250px;
+            height: 30px;
+            margin: 15px;
+            font-size: 1.3rem
+        }
+
+        label {
+            font-size: 1.3rem;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            width: 250px;
+            height: 50px;
+            margin-top: 50px;
+            border-radius: 5px;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .result-block {
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 5rem;
+            width: 190px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .result-label {
+            text-align: left;
+            font-size: 1.5rem;
+        }
+
+        #result,#result-label {
+            margin: 50px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        #result-string {
+            margin:0 auto;
+            width: 80%;
+            font-size: 2.5rem;
+            text-align: center;
+            padding:10px;
+        }
+    </style>
+    <script src="./dateController.js"></script>
+</head>
+
+<body>
+    <div class="input-group">
+        <div>
+            <label for="Date 1">Date 1</label>
+            <input type="text" name="Date 1" id="date1" value="1980,00,01,01:30:20">
+        </div>
+        <div>
+            <label for="Date 2">Date 2</label>
+            <input type="text" name="Date 2" id="date2" value="1980,02,05,05:45:55">
+        </div>
+    </div>
+    <div class="button-wrapper">
+        <button id="show-diff">Difference</button>
+    </div>
+    <hr>
+    <div>
+        <div id="result-label">
+            <div class="result-label">Seconds</div>
+            <div class="result-label">Minutes</div>
+            <div class="result-label">Hours</div>
+            <div class="result-label">Days</div>
+            <div class="result-label">Months</div>
+            <div class="result-label">Years</div>
+        </div>
+        <div id="result">
+            <div id="seconds-result" class="result-block"></div>
+            <div id="minutes-result" class="result-block"></div>
+            <div id="hours-result" class="result-block"></div>
+            <div id="days-result" class="result-block"></div>
+            <div id="months-result" class="result-block"></div>
+            <div id="years-result" class="result-block"></div>
+        </div>
+    </div>
+    <hr>
+    <div id="result-string" class="result-block">
+        
+    </div>
+</body>
+
+</html>

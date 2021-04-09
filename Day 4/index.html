@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Day 4 - JS Objects</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./history.js"></script>
+    <script src="./TableHeader.js"></script>    
+    <script src="./TableRows.js"></script>
+    <script src="./employee-model.js"></script>    
+    <script src="./employee-controller.js"></script>
+    <script src="./validator.js"></script>    
+    <script>
+        window.onload = initialize
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Employee No</td>
+                        <td><input type="text" id="empNo"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Employee Name</td>
+                        <td><input type="text" id="empName"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Employee Department</td>
+                        <td><select id="empDept"></select></td>
+                    </tr>
+
+                    <tr>
+                        <td>Employee Salary</td>
+                        <td><input type="text" id="empSal"></td>
+                    </tr>
+
+                    <tr>
+                        <td><button id="addEmp">Save</button></td>
+                        <td><button id="clear">Clear</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div>
+                <button id="addEmp">Save</button>
+                <button id="updateEmp">Update</button>
+                <button id="deleteEmp">Delete</button>
+                <button id="clear">Clear</button>
+            </div> -->
+
+            <div class="emp-data">
+                <table>
+                    <thead id="table-head">
+
+                    </thead>
+                    <tbody id="table-body">
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="result" class="d-none">
+
+            </div>
+        </div>
+        <div id="history">
+            <table>
+                <thead>
+                    <th>Log</th>
+                    <th>Action</th>
+                </thead>
+                <tbody id="history-log">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

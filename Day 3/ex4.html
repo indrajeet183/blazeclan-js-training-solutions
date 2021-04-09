@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Day 3 - Exercise 4 Date parse and Format</title>
+    <style>
+        body {
+            margin: 30px;
+            background: #1b1b1b;
+            color: #fff
+        }
+
+        .input-group,
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        input {
+            width: 250px;
+            height: 30px;
+            margin: 15px;
+            font-size: 1.3rem
+        }
+
+        label {
+            font-size: 1.3rem;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            width: 250px;
+            height: 50px;
+            margin-top: 50px;
+            border-radius: 5px;
+            font-size: 1.3rem;
+        }
+
+        .result-block {
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 3rem;
+            /* width: 200px;
+            height: 100px; */
+            text-align: center;
+        }
+
+        .result-row {
+            margin: 10px;
+        }
+
+        #result {
+            margin: 50px;
+            justify-content: space-evenly;
+        }
+    </style>
+    <script src="./dateParseController.js"></script>
+</head>
+
+<body>
+    <div class="input-group">
+        <div>
+            <label for="Date Input">Input Date</label>
+            <input type="text" name="Date Input" id="date-input" value="">
+        </div>
+    </div>
+    <div class="button-wrapper">
+        <button id="format-date">Format Date</button>
+    </div>
+    <hr>
+    <div id="result">
+        <div id="format-result" class="result-block"></div>
+    </div>
+</body>
+
+</html>
