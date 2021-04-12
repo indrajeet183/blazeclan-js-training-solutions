@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Day 8 - ES Array Methods</title>
+    <script src="./build/Headers.build.js"></script>
+    <script src="./build/Products.build.js"></script>
+    <script src="./build/array-controller.build.js"></script>
+    <style>
+        body {
+            background: #1b1b1b;
+            color: #fff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            font-size: 1.3rem;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            width: 150px;
+            height: 50px;
+            margin-top: 50px;
+            border-radius: 5px;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .button-group {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .input-wrapper {
+            margin-bottom: 50px;
+            font-size: 1.5rem;
+        }
+
+        .input-wrapper, input {
+            width: 200px;
+            height: 25px;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class='input-wrapper'>
+        <label for="filter">Enter Keyword</label>
+        <input type="text" name='filter' id="filter-input">
+    </div>
+    <div>
+        <div id='product-data'>
+            
+        </div>
+    </div>
+    <div class='button-group'>
+        <button id="product-load">Load All</button>
+        <button id="product-remove-dup">Remove Duplicate</button>
+        <button id="product-filter">Search By Filter</button>
+        <button id="product-group">Group By</button>
+        <select name="group" id="product-group-select">
+            <option value="CategoryName" selected>Category</option>
+            <option value="Manufacturer">Manufacturer</option>
+        </select>
+    </div>
+</body>
+
+</html>
