@@ -1,4 +1,18 @@
-let products = [{
+"use strict";
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var products = [{
   ProductId: "100",
   ProductName: "Dell Latitude 3301",
   CategoryName: 'Laptop',
@@ -66,24 +80,24 @@ let products = [{
   Price: '84000'
 }];
 
-window.onload = () => {
+window.onload = function () {
   document.getElementById('product-load').addEventListener('click', onHandleLoadTalbe, false);
   document.getElementById('product-filter').addEventListener('click', onHandleSearchByFilter, false);
   document.getElementById('product-remove-dup').addEventListener('click', onHandleRemoveDuplicate, false);
   document.getElementById('product-group').addEventListener('click', onHandleGroupBy, false);
 };
 
-const onHandleLoadTalbe = () => {
+var onHandleLoadTalbe = function onHandleLoadTalbe() {
   loadTable(products);
 };
 
-const loadTable = products => {
-  const productsTable = getTable(products);
+var loadTable = function loadTable(products) {
+  var productsTable = getTable(products);
   document.getElementById('product-data').innerHTML = productsTable;
 };
 
-const onHandleRemoveDuplicate = () => {
-  let duplicateResult = products.reduce((result, currentProduct) => {
+var onHandleRemoveDuplicate = function onHandleRemoveDuplicate() {
+  var duplicateResult = products.reduce(function (result, currentProduct) {
     if (!result.hasOwnProperty(currentProduct.ProductName)) {
       result[currentProduct.ProductId] = currentProduct;
     }
@@ -91,20 +105,22 @@ const onHandleRemoveDuplicate = () => {
     return result;
   }, {});
   console.log(duplicateResult);
-  let result = [];
-  Object.keys(duplicateResult).forEach(key => {
+  var result = [];
+  Object.keys(duplicateResult).forEach(function (key) {
     console.log(key);
-    result = [...result, duplicateResult[key]];
+    result = [].concat(_toConsumableArray(result), [duplicateResult[key]]);
   });
   loadTable(result);
 };
 
-const onHandleSearchByFilter = () => {
-  const searchKeyword = document.getElementById('filter-input').value;
+var onHandleSearchByFilter = function onHandleSearchByFilter() {
+  var searchKeyword = document.getElementById('filter-input').value;
 
   if (searchKeyword.length) {
-    let filterResult = products.filter(product => {
-      const result = Object.keys(product).map(e => product[e].toLowerCase().includes(searchKeyword.toLowerCase()));
+    var filterResult = products.filter(function (product) {
+      var result = Object.keys(product).map(function (e) {
+        return product[e].toLowerCase().includes(searchKeyword.toLowerCase());
+      });
       return result.includes(true);
     });
     loadTable(filterResult);
@@ -113,10 +129,10 @@ const onHandleSearchByFilter = () => {
   }
 };
 
-const onHandleGroupBy = () => {
-  const selectedGroup = document.getElementById('product-group-select').value; //console.log(selectedGroup)
+var onHandleGroupBy = function onHandleGroupBy() {
+  var selectedGroup = document.getElementById('product-group-select').value; //console.log(selectedGroup)
 
-  const groupByResult = products.reduce((result, product) => {
+  var groupByResult = products.reduce(function (result, product) {
     console.log(product);
 
     if (result.hasOwnProperty(product[selectedGroup])) {
@@ -128,9 +144,9 @@ const onHandleGroupBy = () => {
 
     return result;
   }, {});
-  let result = [];
-  Object.keys(groupByResult).forEach(key => {
-    result = [...result, ...groupByResult[key]];
+  var result = [];
+  Object.keys(groupByResult).forEach(function (key) {
+    result = [].concat(_toConsumableArray(result), _toConsumableArray(groupByResult[key]));
   });
   loadTable(result);
 };

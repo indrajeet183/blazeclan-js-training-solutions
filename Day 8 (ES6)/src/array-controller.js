@@ -80,7 +80,7 @@ const onHandleLoadTalbe = () => {
 
 const loadTable = (products) => {
     const productsTable = getTable(products)
-    document.getElementById('product-data').innerHTML = productsTable
+    document.getElementById('product-data').innerHTML = productsTable    
 }
 
 const onHandleRemoveDuplicate = () => {
