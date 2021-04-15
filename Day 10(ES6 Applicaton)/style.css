@@ -65,3 +65,7 @@
         tr {
             text-align: left;
         }    
+
+        .d-none {
+            display: none;
+        }

@@ -23,11 +23,22 @@ class ValidateData {
                 }
             }
     }
+
+    getProductObj() {
+        return {
+            CategoryName: this.CategoryName,
+            Description: this.Description,
+            Manufacturer: this.Manufacturer,
+            ProductId: this.ProductId,
+            ProductName: this.ProductName,
+            BasePrice: this.BasePrice
+        }
+    }
 }
 
-const validateProxyObject = (obj) => {    
+const validateProxyObject = (obj) => {
     let validateDataProxy = new Proxy(obj, {
-        set(target, prop, value) {                        
+        set(target, prop, value) {
             if (target.config.hasOwnProperty(prop)) {
                 const rules = target.config[prop].rules
                 if (target.config[prop].hasOwnProperty('startsWith')) {
@@ -35,7 +46,7 @@ const validateProxyObject = (obj) => {
                         rules.forEach((rule) => {
                             switch (rule) {
                                 case 'alphanumeric': {
-                                    if (!checkAlphanumeric(value) && !checkRequired(value)) {
+                                    if (!(checkAlphanumeric(value) && checkRequired(value))) {
                                         throw new Error(`Please enter valid value for ${prop}`)
                                     } else {
                                         return Reflect.set(target, prop, value)
@@ -43,7 +54,7 @@ const validateProxyObject = (obj) => {
                                     break;
                                 }
                                 case 'numeric': {
-                                    if (!checkNumeric(value) && !checkRequired(value)) {
+                                    if (!(checkNumeric(value) && checkRequired(value))) {
                                         throw new Error(`Please enter valid value for ${prop}`)
                                     } else {
                                         return Reflect.set(target, prop, value)
@@ -59,15 +70,15 @@ const validateProxyObject = (obj) => {
                     rules.forEach((rule) => {
                         switch (rule) {
                             case 'alphanumeric': {
-                                if (!checkAlphanumeric(value) && !checkRequired(value)) {
+                                if (!(checkAlphanumeric(value) && checkRequired(value))) {
                                     throw new Error(`Please enter valid value for ${prop}`)
                                 } else {
                                     return Reflect.set(target, prop, value)
                                 }
                                 break;
                             }
-                            case 'numeric': {
-                                if (!checkNumeric(value) && !checkRequired(value)) {
+                            case 'numeric': {                                
+                                if (!(checkNumeric(value) && checkRequired(value))) {
                                     throw new Error(`Please enter valid value for ${prop}`)
                                 } else {
                                     return Reflect.set(target, prop, value)
@@ -92,7 +103,7 @@ const validateProxyObject = (obj) => {
 const checkNumeric = (v) => {
     // logic for checking the numeric value
     // if valid return true / else false
-    return (!isNaN(v))
+    return (!isNaN(v) && (parseFloat(v) > 0))
 }
 
 const checkAlphanumeric = (v) => {
@@ -107,7 +118,7 @@ const checkUnique = (valueToCheck, collectionIntoCheck) => {
 
 const checkRequired = (v) => {
     // key the the property to be checked for required
-    return v.length
+    return v.length > 0 ? true : false
 }
 
 const checkIfAlphabet = (v) => {

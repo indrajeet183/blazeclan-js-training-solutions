@@ -15,9 +15,10 @@
 
 <body>
     <h1>Product Management App with ES 6</h1>
+    <input type="text" hidden id="product-row-id">
     <div>
         <table>
-            <tbody>
+            <tbody>                
                 <tr>
                     <td>Product ID</td>
                     <td><input type="text" id="product-id"></td>
@@ -50,6 +51,8 @@
 
                 <tr>
                     <td><button id="add">Add</button></td>
+                    <td><button class='d-none' id="update">Update</button></td>
+                    <td><button class='d-none' id="delete">Delete</button></td>
                     <td><button id="clear">Clear</button></td>
                 </tr>
             </tbody>

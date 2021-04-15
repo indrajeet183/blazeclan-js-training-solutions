@@ -7,7 +7,7 @@ class UIGenerator {
             table += `${header}</thead><tbody>`
             table += data.map((product) => {
                 let tds = Object.keys(product).map((key) => {
-                    return `<td>${product[key]}</td>`
+                    return `<td name="${key}">${product[key]}</td>`
                 }).join('')
                 return `<tr>${tds}</tr>`
             }).join('')
