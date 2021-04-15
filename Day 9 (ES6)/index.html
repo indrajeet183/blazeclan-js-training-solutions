@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>Day 9 - ES6 Map</title>
+    <title>Day 9 - ES6 WeakMap</title>
     <script src="./build/Product.js"></script>
     <script src="./build/UI.js"></script>
-    <script src="./build/product-controller.js"></script>    
+    <script src="./build/product-controller.js"></script>
     <style>
         body {
             background: #1b1b1b;
@@ -47,67 +47,90 @@
             font-size: 1.2rem;
         }
 
-        #category-data  tr {
+        #category-data tr {
             text-align: center;
+        }
+
+        .table-wrapper {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .table-data {
+            justify-content: space-around;
+            display: flex;
+            align-content: center;
+            flex-wrap: nowrap;
+            flex-direction: row;
+        }
+
+        th {
+            border: 1px solid;
+            background: #fff;
+            color: #000;
+        }
+
+        tr {
+            text-align: right;
         }
     </style>
 </head>
 
 <body>
-    <table class='input-wrapper'>
-        <tbody>
-            <!-- <tr>
+    <div class="table-wrapper">
+        <table>
+            <tbody>
+                <!-- <tr>
                 <td>Category Id</td>
                 <td><input type="text" name="category-id" id="category-id"></td>
             </tr> -->
 
-            <tr>
-                <td>Category Name</td>
-                <td><input type="text" name="category-name" id="category-name"></td>
-            </tr>
+                <tr>
+                    <td>Category Name</td>
+                    <td><input type="text" name="category-name" id="category-name"></td>
+                </tr>
 
-            <tr>                
-                <td><button id="category-add">Add Category</td>
-            </tr>
-        </tbody>
-    </table>
+                <tr>
+                    <td><button id="category-add">Add Category</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <table class='input-wrapper'>
-        <tbody>
-            <tr>
-                <td>ProdCuct Id</td>
-                <td><input type="text" name="product-id" id="product-id"></td>
-            </tr>
+        <table>
+            <tbody>
+                <tr>
+                    <td>ProdCuct Id</td>
+                    <td><input type="text" name="product-id" id="product-id"></td>
+                </tr>
 
-            <tr>
-                <td>Product Name</td>
-                <td><input type="text" name="product-name" id="product-name"></td>
-            </tr>
+                <tr>
+                    <td>Product Name</td>
+                    <td><input type="text" name="product-name" id="product-name"></td>
+                </tr>
 
-            <tr>
-                <td>Product Category</td>
-                <td id="category-select-data"></td>
-            </tr>
+                <tr>
+                    <td>Product Category</td>
+                    <td id="category-select-data"></td>
+                </tr>
 
-            <tr>                
-                <td><button id="product-add">Add Product</td>
-            </tr>
-        </tbody>
-    </table>
-    <div>
+                <tr>
+                    <td><button id="product-add">Add Product</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="table-data">
         <div id='category-data'>
 
         </div>
-    </div>
-    <hr>
-    <div>
+
         <div id='product-data'>
 
         </div>
+
     </div>
-    <div class='button-group'>
-        <button id="product-add">Add</button>
-    </div>
+
 </body>
 
 </html>

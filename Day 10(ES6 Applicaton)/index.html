@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./uigenerator.js"></script>
+    <script src="./validatedata.js"></script>
+    <script src="./datautility.js"></script>
+    <script src="./applications.js"></script>
+</head>
+
+<body>
+    <h1>Product Management App with ES 6</h1>
+    <div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Product ID</td>
+                    <td><input type="text" id="product-id"></td>
+                </tr>
+
+                <tr>
+                    <td>Product Name</td>
+                    <td><input type="text" id="product-name"></td>
+                </tr>
+
+                <tr>
+                    <td>Category</td>
+                    <td id="category-data-options"></td>
+                </tr>
+
+                <tr>
+                    <td>Manufacturer</td>
+                    <td id="manfac-data-options"></td>
+                </tr>
+
+                <tr>
+                    <td>Description</td>
+                    <td><input type="text" id="product-desc"></td>
+                </tr>
+
+                <tr>
+                    <td>Base Price</td>
+                    <td><input type="text" id="product-price"></td>
+                </tr>
+
+                <tr>
+                    <td><button id="add">Add</button></td>
+                    <td><button id="clear">Clear</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="product-data">
+
+    </div>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-class UI {
+class UIGenerator {
     static generateTable = (data) => {
         //console.log(data)
         let table = "<table><thead>"
@@ -21,7 +21,7 @@ class UI {
     static generateSelect = (data, id) => {
         let selectHTML = `<select id="${id}">`
         if (data.length) {
-            selectHTML += data.map((e) => `<option value="${e['CategoryId']}">${e['CategoryName']}</option>`)
+            selectHTML += data.map((e) => `<option value="${e}">${e}</option>`)
             selectHTML += '</select>'
         } else {
             selectHTML = "No Data found!"
