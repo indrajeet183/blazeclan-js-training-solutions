@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 10 - Fetch and Proxy</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="./uigenerator.js"></script>
+    <script src="./validatedata.js"></script>
+    <script src="./datautility.js"></script>
+    <script src="./applications.js"></script>
+    <style>
+        .custom-invalid {
+            border-color: #dc3545;
+        }
+
+        .custom-valid {
+            border-color: #28a745;
+        }
+
+        tbody {
+            display: block;
+            height: 200px;
+            overflow: auto;
+        }
+
+        thead,
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        td[name="ProductRowId"] {
+            cursor: pointer;
+            ;
+        }
+
+        #alert {
+            position: fixed;
+            bottom: 50%;
+            z-index: 50;
+            left: 40%;
+        }
+        
+    </style>
+</head>
+
+<body class='bg-light'>
+    <h1>Product Management App with ES 6</h1>
+    <div id='alert'></div>
+    <input type="text" hidden id="product-row-id">
+    <div class="container" id="form">
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                <label for="ProductId">Product Id</label>
+                <input name="ProductId" type="text" id="product-id" class="form-control">
+                <span></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="ProductName">Product Name</label>
+                <input name="ProductName" type="text" id="product-name" class="form-control">
+                <span></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="CategoryName">Category Name</label>
+                <div id="category-data-options"></div>
+                <span></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="Manufacturer">Manufacturer</label>
+                <div id="manfac-data-options"></div>
+                <span></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="Description">Description</label>
+                <input name="Description" type="text" id="product-desc" class="form-control">
+                <span></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="BasePrice">Base Price</label>
+                <input name="BasePrice" type="text" id="product-price" class="form-control">
+                <span></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="LastRowId">Last ProductRowId</label>
+                <input name="LastRowId" type="text" id="last-row-id" class="form-control" disabled>
+            </div>
+
+            <div class="btn-group col-md-8 p-1">
+                <button class="btn btn-primary" id="add">Add</button>
+                <button class='d-none btn btn-warning' id="update">Update</button>
+                <button class='d-none btn btn-danger' id="delete">Delete</button>
+                <button class="btn btn-info" id="clear">Clear</button>
+            </div>
+        </div>
+    </div>
+    <div id="product-data">
+
+    </div>
+</body>
+
+</html>
