@@ -47,16 +47,21 @@ const validateProxyObject = (obj) => {
                             switch (rule) {
                                 case 'alphanumeric': {
                                     if (!(checkAlphanumeric(value) && checkRequired(value))) {
-                                        throw new Error(`Please enter valid value for ${prop}`)
+                                        errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
+                                        //console.log(errorField)
+                                        // throw new Error(`Please enter valid value for ${prop}`)
                                     } else {
+                                        errorField[prop] = { error: false, msg: 'Correct value!' }
                                         return Reflect.set(target, prop, value)
                                     }
                                     break;
                                 }
                                 case 'numeric': {
                                     if (!(checkNumeric(value) && checkRequired(value))) {
-                                        throw new Error(`Please enter valid value for ${prop}`)
+                                        errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
+                                        //throw new Error(`Please enter valid value for ${prop}`)
                                     } else {
+                                        errorField[prop] = { error: false, msg: 'Correct value!' }
                                         return Reflect.set(target, prop, value)
                                     }
                                     break;
@@ -64,23 +69,29 @@ const validateProxyObject = (obj) => {
                             }
                         })
                     } else {
-                        throw new Error("Product name doesn't start with 'Prd-'")
+                        errorField[prop] = { error: true, msg: "Product name doesn't start with 'Prd-'" }
+                        //throw new Error("Product name doesn't start with 'Prd-'")
                     }
                 } else {
                     rules.forEach((rule) => {
                         switch (rule) {
                             case 'alphanumeric': {
                                 if (!(checkAlphanumeric(value) && checkRequired(value))) {
-                                    throw new Error(`Please enter valid value for ${prop}`)
+                                    errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
+                                    // throw new Error(`Please enter valid value for ${prop}`)
                                 } else {
+                                    errorField[prop] = { error: false, msg: 'Correct value!' }
                                     return Reflect.set(target, prop, value)
                                 }
                                 break;
                             }
-                            case 'numeric': {                                
+                            case 'numeric': {
                                 if (!(checkNumeric(value) && checkRequired(value))) {
-                                    throw new Error(`Please enter valid value for ${prop}`)
+                                    errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
+                                    console.log(er)
+                                    // throw new Error(`Please enter valid value for ${prop}`)
                                 } else {
+                                    errorField[prop] = { error: false, msg: 'Correct value!' }
                                     return Reflect.set(target, prop, value)
                                 }
                                 break;
@@ -89,6 +100,7 @@ const validateProxyObject = (obj) => {
                     })
                 }
             } else {
+                errorField[prop] = { error: false, msg: 'Correct value!' }
                 return Reflect.set(target, prop, value)
             }
         },

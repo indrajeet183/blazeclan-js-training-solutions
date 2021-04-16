@@ -20,13 +20,19 @@ class DataUtility {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
+            })            
         } else {
             result = await fetch(this.#baseUrl + url, {
                 method: method
             })
         }
-        //console.log(result.json())
-        return result.json()
+
+        if(method === 'PUT') {            
+            //console.log(result.body)
+            return result.body
+        }else {
+            return result.json()
+        }
+        
     }
 }

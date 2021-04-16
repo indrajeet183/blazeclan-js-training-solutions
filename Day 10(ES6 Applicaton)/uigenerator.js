@@ -1,7 +1,7 @@
 class UIGenerator {
     static generateTable = (data) => {
         //console.log(data)
-        let table = "<table><thead>"
+        let table = '<table class="table table-responsive"><thead>'
         if (data.length > 0) {
             const header = this.generateHeader(Object.keys(data[0]))
             table += `${header}</thead><tbody>`
@@ -18,8 +18,8 @@ class UIGenerator {
         return table
     }
 
-    static generateSelect = (data, id) => {
-        let selectHTML = `<select id="${id}">`
+    static generateSelect = (data, id, name) => {
+        let selectHTML = `<select class="form-control" name=${name} id="${id}">`
         if (data.length) {
             selectHTML += data.map((e) => `<option value="${e}">${e}</option>`)
             selectHTML += '</select>'

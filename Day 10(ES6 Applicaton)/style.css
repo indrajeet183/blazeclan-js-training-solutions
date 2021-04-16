@@ -69,3 +69,15 @@
         .d-none {
             display: none;
         }
+
+        .prefix {
+            color:gray;
+            position: relative;
+            z-index:2;
+        }
+
+        #product-id {
+            position: relative;
+            margin-left: -41px;
+            padding-left: 41px;
+        }
