@@ -4,10 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Assignment - Dynamic Application</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../build/build.js"></script>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">JS Assignment</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Form Generator</a>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">String Utility</a>
+                </li>                
+            </ul>            
+        </div>
+    </nav>
+    <div id="main" class="container-fluid">
+        <div id="loader" class="d-none">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id="main-table"></div>
+    </div>
 
+    <div class="container p-5">
+        <div id="logs" class="list-group">
+
+        </div>
+    </div>
 </body>
 
 </html>

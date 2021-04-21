@@ -1,0 +1,52 @@
+#main,#main-table {
+    position: relative;
+}
+
+.table-header-icon {
+    position: absolute;
+    cursor: pointer;
+    margin-left: 3px;
+}
+
+.table-footer-left-arrow, .table-footer-right-arrow {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+#loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+div[name="alert-msg"] {
+    margin-top:2px;
+    visibility: hidden;
+    position: absolute;
+}
+
+td:hover  div[name="alert-msg"]{    
+    visibility: visible;
+}
+
+.icon-disable {
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+#logs {
+    height: 250px;
+    overflow-y: auto;
+}
+
+#logs li {
+    word-break: break-all;
+}
