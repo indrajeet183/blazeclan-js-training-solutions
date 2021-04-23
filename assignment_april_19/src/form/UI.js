@@ -1,133 +1,3 @@
-class Product {
-    constructor(BasePrice, CategoryName, Description, Manufacturer, ProductId, ProductName) {
-        this.BasePrice = BasePrice,
-            this.CategoryName = CategoryName,
-            this.Description = Description,
-            this.Manufacturer = Manufacturer,
-            this.ProductId = ProductId,
-            this.ProductName = ProductName,
-
-            this.config = {
-                'ProductName': {
-                    rules: ['alphanumeric'],
-                    required: true
-                },
-                'ProductId': {
-                    rules: ['alphanumeric'],
-                    startsWith: 'Prd-',
-                    required: true
-                },
-                'BasePrice': {
-                    rules: ['numeric'],
-                    required: true
-                }
-            }
-
-        this.errorField = {
-
-        }
-    }
-
-    getProductObj() {
-        return {
-            CategoryName: this.CategoryName,
-            Description: this.Description,
-            Manufacturer: this.Manufacturer,
-            ProductId: this.ProductId,
-            ProductName: this.ProductName,
-            BasePrice: this.BasePrice
-        }
-    }
-}
-
-const validateProxyObject = (obj) => {
-    let validateDataProxy = new Proxy(obj, {
-        set(target, prop, value) {            
-            if (target.config.hasOwnProperty(prop)) {
-                const rules = target.config[prop].rules
-                if (target.config[prop].hasOwnProperty('startsWith')) {
-                    if (value.startsWith(target.config[prop]['startsWith'])) {                        
-                        rules.forEach((rule) => {
-                            if (rule === 'alphanumeric') {
-                                if (!(checkAlphanumeric(value) && checkRequired(value))) {
-                                    target.errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
-                                    returnValue.push(false)
-                                } else {
-                                    target.errorField[prop] = { error: false, msg: 'Correct value!' }
-                                    returnValue.push(false)
-                                }
-                            }
-                            if (rule === 'numeric') {
-                                if (!(checkNumeric(parseInt(value)) && checkRequired(value))) {
-                                    target.errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
-                                    returnValue.push(false)
-                                } else {
-                                    target.errorField[prop] = { error: false, msg: 'Correct value!' }
-                                    returnValue.push(Reflect.set(target, prop, value))
-                                }
-                            }
-                        })
-                        return !returnValue.includes(false)
-                    } else {
-                        target.errorField[prop] = { error: true, msg: "Product name doesn't start with 'Prd-'" }
-                        return true
-                    }
-                } else {
-                    let returnValue = []
-                    rules.forEach((rule) => {
-                        if (rule === 'alphanumeric') {
-                            if (!(checkAlphanumeric(value) && checkRequired(value))) {
-                                target.errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
-                                returnValue.push(false)
-                            } else {
-                                target.errorField[prop] = { error: false, msg: 'Correct value!' }                                
-                                returnValue.push(Reflect.set(target, prop, value))
-                            }
-                        }
-                        if (rule === 'numeric') {
-                            if (!(checkNumeric(value) && checkRequired(value))) {
-                                target.errorField[prop] = { error: true, msg: `Please enter valid value for ${prop}` }
-                                returnValue.push(false)
-                            } else {
-                                target.errorField[prop] = { error: false, msg: 'Correct value!' }
-                                returnValue.push(Reflect.set(target, prop, value))
-                            }
-                        }
-                    })
-                    return !returnValue.includes(false)
-                }
-            } else {
-                target.errorField[prop] = { error: false, msg: 'Correct value!' }
-                return Reflect.set(target, prop, value)
-            }
-        },
-        get(target, prop) {
-            return Reflect.get(target, prop)
-        },
-    })
-    return validateDataProxy;
-}
-
-const checkNumeric = (v) => {
-    return (!isNaN(v) && (parseFloat(v) > 0))
-}
-
-const checkAlphanumeric = (v) => {
-    return (checkIfAlphabet(v) || checkIfNumebr(v) || checkIfSpace(v))
-}
-
-const checkRequired = (v) => {
-    return v.length > 0 ? true : false
-}
-
-const checkIfAlphabet = (v) => {
-    return ((v >= 'a' && v <= 'z') || (v >= 'A' && v <= 'Z') || (v === " "))
-}
-
-const checkIfSpace = (v) => {
-    return (v === " ")
-}
-
 class UI {
 
     #datasource = []
@@ -310,19 +180,23 @@ class UI {
         let input = false
         switch (type) {
             case 'text': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type=${type} value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type="${type}" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
             case 'number': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type=${type} value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type="${type}" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
-            case 'boolean': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type=${type} value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+            case 'checkbox': {
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-check-input${className.length ? ' ' + className : ""}" type="checkbox" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                break
+            }
+            case 'radio': {
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-check-input${className.length ? ' ' + className : ""}" type="radio" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
             case 'date': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""} type="date" "value=${value} name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type="date" "value=${value} name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
         }
@@ -553,98 +427,5 @@ class UI {
         for (let btn of actionBtns) {
             btn.addEventListener('click', this.onHandleActionButtons, false)
         }
-    }
-}
-let ui
-let table
-let productApi
-window.onload = () => {
-    const pupulateTable = (tableHtml) => {
-        // console.log(tableHtml)
-        document.getElementById('main-table').innerHTML = tableHtml
-        ui.initializeHandlers()
-    }
-
-    const updateTableSubscriber = (data) => {
-        console.log(data)
-        productApi.updateProduct(data)
-    }
-
-    const deleteTableSubscriber = (data) => {
-        productApi.deleteProduct(data.ProductRowId)
-    }
-
-    const debugSubscriber = (data) => {
-        document.getElementById('logs').innerHTML += `<li class="list-group-item list-group-item-${data.type==="success"?'success':'danger'}">${data.msg}</li>`
-    }
-
-    ui = new UI(Product, validateProxyObject)
-    productApi = new ProductRoutes()
-    
-    ui.subscribe('table-generate', pupulateTable)
-    ui.subscribe('table-update', updateTableSubscriber)
-    ui.subscribe('table-delete', deleteTableSubscriber)
-    ui.subscribe('debug',debugSubscriber)
-    
-    productApi.getProducts().then((data) => {
-        table = ui.Table(data, 5, true, true)
-    }).catch((err) => {
-        console.log(err)
-    })
-}
-class DataUtility {
-    #baseUrl = 'https://apiapptrainingnewapp.azurewebsites.net/api/Products/'
-
-    sendRequest = async (method = 'GET', reqBody = '', url = "") => {
-        let result
-        console.log(reqBody)
-        console.log(JSON.stringify(reqBody))
-        if (method === 'POST' || method === 'PUT') {
-            result = await fetch(this.#baseUrl + url, {
-                method: method,
-                body: JSON.stringify(reqBody),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })            
-        } else {
-            result = await fetch(this.#baseUrl + url, {
-                method: method
-            })
-        }
-
-        if(method === 'PUT') {            
-            //console.log(result.body)
-            return result.body
-        }else {
-            return result.json()
-        }
-        
-    }
-}
-class ProductRoutes {
-    #dataUtil = {}
-    constructor() {
-        this.#dataUtil = new DataUtility()
-    }
-
-    getProducts = () => {
-        return this.#dataUtil.sendRequest('GET')
-    }
-
-    getProduct = (productId) => {
-        return this.#dataUtil.sendRequest('GET', '', productId)
-    }
-
-    addProduct = (product) => {
-        return this.#dataUtil.sendRequest('POST', product)
-    }
-
-    updateProduct = (product) => {
-        return this.#dataUtil.sendRequest('PUT', product, product.ProductRowId)
-    }
-
-    deleteProduct = (productRowId) => {
-        return this.#dataUtil.sendRequest('DELETE', '', productRowId)
     }
 }
