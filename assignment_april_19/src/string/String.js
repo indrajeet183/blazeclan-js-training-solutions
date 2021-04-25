@@ -16,6 +16,20 @@ class StringUtil {
         0: 'Thousand', 1: 'Lakh', 2: 'Crore', 3: 'Arab'
     }
 
+    #number0Mapping = {
+        "Arab": 10, "Crore": 8, "Lakh": 6, "Thousand": 4, "Hundred": 3
+    }
+
+    #getRevrseMapping = () => {
+        return {
+            unitMapping: Object.keys(this.#unitPlaceMapping).reduce((acc, next) => { acc[this.#unitPlaceMapping[next]] = next; return acc }, {}),
+            elevenMapping: Object.keys(this.#elevenMapping).reduce((acc, next) => { acc[this.#elevenMapping[next]] = next; return acc }, {}),
+            tenthMapping: Object.keys(this.#tenthPlaceMapping).reduce((acc, next) => { acc[this.#tenthPlaceMapping[next]] = next; return acc }, {}),
+            aboveHundred: Object.keys(this.#aboveHundredMapping).reduce((acc, next) => { acc[this.#aboveHundredMapping[next]] = next; return acc }, {})
+        }
+
+    }
+
     constructor(str) {
         this.str = str
     }
@@ -30,7 +44,7 @@ class StringUtil {
 
     NumberToString = () => {
         const numberString = this.str.toString()
-
+        //console.log(this.#getRevrseMapping())
         let result = ""
 
         if (numberString.length > 3) {
@@ -109,7 +123,7 @@ class StringUtil {
         console.log('asdasd', hundredthPlace)
 
         if (numberString.length > 2 && hundredthPlace !== 0) {
-            result += this.#unitPlaceMapping[parseInt(numberString / 100)].concat(" Hundred")
+            result += this.#unitPlaceMapping[parseInt(numberString / 100)].concat(" Hundred ")
             console.log(numberString)
             result = result.concat(this.getStringForTenth(numberString))
         } else if (hundredthPlace === 0) {
@@ -145,6 +159,52 @@ class StringUtil {
     }
 
     StringToNumber = () => {
+        const reverseMapping = this.#getRevrseMapping()
+        let tempStr = this.str.replace(/ and /g, ' ')
+        let resultArr = []
+        const tempMapping = { 'Hundred': 'X', ...reverseMapping.aboveHundred }
+        console.log(reverseMapping)
 
+        Object.keys(tempMapping).reverse().forEach((key) => {
+            let numberStr = tempStr.split(key)[0].trim()
+            let result = 0
+            if (tempStr.includes(key)) {
+                const multiplier = Math.pow(10, this.#number0Mapping[key] - 1)
+                if (reverseMapping.elevenMapping.hasOwnProperty(numberStr)) {
+                    result += parseInt(reverseMapping.elevenMapping[numberStr]) * multiplier
+                } else {
+                    if (reverseMapping.unitMapping.hasOwnProperty(numberStr)) {
+                        result += parseInt(reverseMapping.unitMapping[numberStr]) * multiplier
+                    } else {
+                        const tempArr = numberStr.split("")
+                        tempArr.forEach((num) => {
+                            if (reverseMapping.unitMapping.hasOwnProperty(num.trim())) {
+                                result += parseInt(reverseMapping.unitMapping[num.trim()]) * multiplier
+                            } else if (reverseMapping.tenthMapping.hasOwnProperty(num.trim())) {
+                                result += parseInt(reverseMapping.tenthMapping[num.trim()]) * multiplier
+                            }
+                        })
+                    }
+                }
+                resultArr.push(result)
+
+                tempStr = tempStr.split(key).slice(1, tempStr.split(key).length).join("")
+            }
+        })
+
+        let result = 0
+        const tempArr = tempStr.trim().split(" ")
+        tempArr.forEach((num) => {
+            if (reverseMapping.unitMapping.hasOwnProperty(num.trim())) {
+                result += parseInt(reverseMapping.unitMapping[num.trim()])
+            } else if (reverseMapping.tenthMapping.hasOwnProperty(num.trim())) {
+                result += parseInt(reverseMapping.tenthMapping[num.trim()])
+            }
+        })
+
+        resultArr.push(result)
+        return resultArr.reduce((a, b) => a + b)
     }
 }
+
+//Thirteen Lakh and Eleven Thousand and One Hundred  and Twenty Three

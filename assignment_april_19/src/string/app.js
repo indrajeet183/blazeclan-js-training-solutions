@@ -25,7 +25,12 @@ window.onload = () => {
     }
 
     const onHandleStringToNumber = (e) => {
+        const str = document.getElementById('string-number-target-str').value
+        console.log(str)
+        stringObj = new StringUtil(str)
 
+        document.getElementById('string-num-source-str').value = stringObj.StringToNumber(str)
+        e.preventDefault()
     }
 
     document.getElementById('btn-encrypt').addEventListener('click', onHandleEncrypt, false)
