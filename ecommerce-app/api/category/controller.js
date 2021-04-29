@@ -1,5 +1,7 @@
 const msgs = require('../../i18n/msg.en_us');
+const ResponseFactoryClass = require('../../util/ResonseFactory');
 const DAO = require('../dao');
+const ResponseFactory = new ResponseFactoryClass()
 
 class CategoryDAOExtended extends DAO {
     constructor(modelName) {
@@ -11,17 +13,10 @@ class CategoryDAOExtended extends DAO {
         try {
             const result = await this.model.findAll({ where: { parent_id: id } })
             if (result) {
-                res.status(200).send({
-                    success: true,
-                    message: `${msgs.RECORDS_200}`,
-                    data: result
-                })
+                res.status(200).send(ResponseFactory.createResponse({ data: records, type: 'records_200' }).response())
             }
         } catch (e) {
-            res.status(500).send({
-                success: false,
-                message: `${msgs.ERROR_500} = ${e.message}`
-            })
+            res.status(500).send(ResponseFactory.createResponse({ data: records, type: 'error_500', msg: e.message }).response())
         }
     }
 }

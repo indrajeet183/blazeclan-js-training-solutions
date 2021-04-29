@@ -4,10 +4,10 @@ const vendorDaoObject = new DAO('vendor')
 
 const router = express.Router()
 
-router.get('/:id', vendorDaoObject.getOneRecord)
-router.get('/', vendorDaoObject.getAllRecords)
-router.post('/', vendorDaoObject.createRecord)
-router.put('/:id', vendorDaoObject.updateRecord)
-router.delete('/:id', vendorDaoObject.deleteRecord)
+router.get('/vendor/:id', vendorDaoObject.getOneRecord)
+router.get('/vendor', vendorDaoObject.getAllRecords)
+router.post('/vendor', vendorDaoObject.createRecord)
+router.put('/vendor/:id', vendorDaoObject.updateRecord)
+router.delete('/vendor/:id', vendorDaoObject.deleteRecord)
 
 module.exports = router
