@@ -309,12 +309,14 @@ class UI {
 
     onHandleEdit = (e) => {
         this.Loader(true)
-        const rowId = e.path[2].id        
-        this.toggleEditRow(rowId.split('-')[rowId.split('-').length])
+        const rowId = e.path[2].id
+        //console.log(rowId)
+        console.log(rowId, rowId.split('-')[rowId.split('-').length - 1])
+        this.toggleEditRow(rowId, rowId.split('-')[rowId.split('-').length - 1])
         this.Loader(false)
     }
 
-    toggleEditRow = (rowId,id) => {
+    toggleEditRow = (rowId, id) => {
         const editableRowId = 'table-row-edit-'.concat(id)
         const editBtnId = 'table-action-edit-'.concat(id)
         const updateBtnId = 'table-action-update-'.concat(id)
@@ -408,12 +410,12 @@ class UI {
         const row = e.path[3]
         const rowId = row.id.split('-')[row.id.split('-').length - 1]
         // console.log(rowId)        
-        this.deleteFromDataSource(rowId,1)
+        this.deleteFromDataSource(rowId, 1)
         this.generateTable(false)
     }
 
-    deleteFromDataSource = (pos,nrow) => {
-        const tempOb = this.#datasource.splice(pos,nrow)
+    deleteFromDataSource = (pos, nrow) => {
+        const tempOb = this.#datasource.splice(pos, nrow)
         this.publish('table-delete', tempOb[0])
         this.publish('debug', { type: 'success', msg: `Deleted table row Successfully! ${JSON.stringify(tempOb[0])}` })
     }
@@ -434,6 +436,7 @@ class UI {
         } else {
             for (let checkbox of checkboxes) {
                 checkbox.checked = false
+                this.onHandleCancel()
             }
         }
         console.log(this.limit, this.offset)
@@ -444,7 +447,7 @@ class UI {
         const checkboxesElements = document.getElementById('ui-table').getElementsByClassName('form-check-input')
         let checkedBoxes = []
         for (let checkbox of checkboxesElements) {
-            if(checkbox.checked)
+            if (checkbox.checked)
                 checkedBoxes.push(checkbox)
         }
         //console.log(checkedBoxes)
@@ -455,19 +458,20 @@ class UI {
         console.log(e.target.value)
         const checkedRows = this.getCheckedRow()
         console.log(checkedRows)
-        if(checkedRows.length>0) {
-            if(e.target.value === 'edit') {
+        if (checkedRows.length > 0) {
+            if (e.target.value === 'edit') {
                 checkedRows.forEach((row) => {
-                    this.toggleEditRow('table-row-'+row.value,row.value)
+                    if (row.id !== 'check-all')
+                        this.toggleEditRow('table-row-' + row.value, row.value)
                 })
-            }else if(e.target.value === 'delete') {
+            } else if (e.target.value === 'delete') {
                 checkedRows.forEach((row) => {
-                    this.deleteFromDataSource(row.value,1)
+                    this.deleteFromDataSource(row.value, 1)
                 })
                 this.generateTable(false)
             }
         } else {
-            this.publish('debug',{type:'danger',msg:'No rows are selected!'})
+            this.publish('debug', { type: 'danger', msg: 'No rows are selected!' })
         }
     }
 
@@ -479,13 +483,13 @@ class UI {
         document.getElementById('check-all').addEventListener('click', this.onHandleCheckAll, false)
         const ths = document.getElementById('ui-table').getElementsByTagName('th')
         for (let th of ths) {
-            if(th.id.length>0)
+            if (th.id.length > 0)
                 th.addEventListener('click', this.onHandleSort, false)
         }
         const actionBtns = document.getElementsByClassName('table-action-btn')
         for (let btn of actionBtns) {
             btn.addEventListener('click', this.onHandleActionButtons, false)
         }
-        document.getElementById('bulk-action').addEventListener('change',this.onHandleBulkAction,false)
+        document.getElementById('bulk-action').addEventListener('change', this.onHandleBulkAction, false)
     }
 }

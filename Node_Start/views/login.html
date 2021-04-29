@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script>
+        window.onload = () => {
+
+            const user = localStorage.getItem('user')
+            if (user && user.length) {
+                const userObj = JSON.parse(user)
+                if (userObj && (userObj.hasOwnProperty('userName') && userObj.hasOwnProperty('userPass'))) location.href = "/"
+            }
+
+
+            const login = (e) => {
+                const userName = document.getElementById('email').value
+                const userPass = document.getElementById('password').value
+
+                fetch('http://localhost:6060/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ userName, userPass })
+                }).then((res) => {
+                    res.json().then((data) => {
+                        if (data.success) {
+                            handleMessage('success', data.message)
+                            localStorage.setItem('user', JSON.stringify({ userName, userPass }))
+
+                            setTimeout(() => {
+                                location.href = '/'
+                            }, 1500)
+                        } else {
+                            handleMessage('danger', data.message)
+                        }
+                    })
+                })
+
+                e.preventDefault()
+            }
+
+            document.getElementById('login').addEventListener('click', login, false)
+        }
+
+        const handleMessage = (type, message) => {
+            document.getElementById('login-result').className = document.getElementById('login-result').className.replace(' d-none', '')
+            document.getElementById('result').className = `alert alert-${type}`
+            document.getElementById('result').innerText = message
+
+            setTimeout(() => {
+                document.getElementById('login-result').className += ' d-none'
+            }, 2500)
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">JS Assignment</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <div class="container mt-5">
+        <div class="card">
+            <h5 class="card-header">Login</h5>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="email">User Name</label>
+                        <input type="text" class="form-control" id="email" aria-describedby="emailHelp"
+                            placeholder="Enter User Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <button id="login" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div id="login-result" class="card-footer d-none">
+                <div id="result" role="alert">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

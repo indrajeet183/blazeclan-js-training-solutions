@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Express - App</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <script src="jquery.min.js"></script>
+    <style>
+        a {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        $(document).ready(() => {
+            const id = location.search.split('id=')[1]
+            if (id) {
+                fetch(`http://localhost:7070/api/employees/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(data => data.json().then((json) => {
+                    if (json.success) {
+                        populateForm(json.data[0])
+                        showMessage('success', json.message)
+                    } else {
+                        showMessage('danger', json.message)
+                    }
+                }))
+            } else {
+                $($('.card')[0]).addClass('d-none')
+                showMessage('danger', 'No Record was selected! Redirecting to listing page!')
+                setTimeout(() => {
+                    location.href = '/list'
+                }, 2500)
+            }
+
+            $('#addEmp').on('click', (e) => {
+                const EmpNo = parseInt($('#EmpNo').val())
+                const EmpName = $('#EmpName').val()
+                const DeptName = $('#DeptName').val()
+                const Salary = parseInt($('#Salary').val())
+
+                const empOb = { EmpNo, EmpName, DeptName, Salary }
+
+                fetch(`http://localhost:7070/api/employees/${EmpNo}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(empOb),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(data => data.json().then((json) => {
+                    if (json.success) {
+                        showMessage('success', json.message)
+                        setTimeout(() => {
+                            location.href = '/list'
+                        }, 3000)
+                    } else {
+                        showMessage('danger', json.message)
+                    }
+                }))
+                e.preventDefault()
+            })
+        })
+
+        const populateForm = (emp) => {
+            $('input').each((_i, ele) => {
+                $(ele).val(emp[ele.id])
+            })
+        }
+
+        const showMessage = (type, msg) => {
+            $('#msg').addClass(`${type === 'danger' ? 'alert-danger' : 'alert-success'}`)
+            $('#msg').removeClass('d-none')
+            $('#msg').html(msg)
+
+            setTimeout(() => {
+                $('#msg').addClass('d-none')
+            }, 2500)
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Express App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul id="menu-links" class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/list">List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create">Create</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="card  w-80">
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="EmpNo">Employee No</label>
+                        <input type="number" class="form-control" id="EmpNo" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmpName">Employee Name</label>
+                        <input type="text" class="form-control" id="EmpName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DeptName">Department</label>
+                        <input type="text" class="form-control" id="DeptName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Salary">Salary</label>
+                        <input type="number" class="form-control" id="Salary">
+                    </div>
+
+                    <button id="addEmp" class="btn btn-primary">UPDATE</button>
+                    <a href="/list" class="btn btn-danger active" role="button" aria-pressed="true">CANCEL</a>
+                </form>
+            </div>
+        </div>
+
+        <div id="msg" class="alert d-none" role="alert"></div>
+    </div>
+</body>
+
+</html>

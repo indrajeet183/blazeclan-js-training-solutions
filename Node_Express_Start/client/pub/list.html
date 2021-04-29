@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Express - App</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <script src="jquery.min.js"></script>
+    <style>
+        a {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        $(document).ready(() => {
+            fetch('http://localhost:7070/api/employees', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((data) => {
+                data.json().then((res) => {
+                    if (res.success) {
+                        generateTable(res.data)
+                        showMessage('success', res.message)
+                    } else {
+                        showMessage('danger', res.message)
+                    }
+                })
+            })
+        })
+
+        const initializeButtonHandlers = () => {
+            $('button[name="add-emp"]').on('click', (e) => {
+                location.href = `/update?id=${e.target.id}`
+            })
+
+            $('button[name="delete-emp"]').on('click', (e) => {
+                location.href = `/delete?id=${e.target.id}`
+            })
+        }
+
+        const generateTable = (data) => {
+            let table = ""
+            if (data.length > 1) {
+                table += `<table class="table"><thead><tr>`;
+
+                const keys = Object.keys(data[0])
+
+                table += keys.map(key => `<th>${key}</th>`).join("").concat('<th colspan="2" class="text-center">Actions</th>')
+
+                table += '</tr></thead><tbody>'
+
+                table += data.map((emp) => {
+                    let actionTd = `<td><button id="${emp[keys[0]]}" name="add-emp" class="btn btn-success">Edit</button></td><td><button id="${emp[keys[0]]}" name="delete-emp" class="btn btn-danger">Delete</button></td>`
+                    return `<tr>` + keys.map(key => `<td>${emp[key]}</td>`).join("").concat(`${actionTd}</tr>`)
+                }).join("")
+
+                table += '</tbody></table>'
+            } else {
+                table = 'Data Source Empty!'
+            }
+
+            console.log(table)
+
+            $('#result').html(table)
+            initializeButtonHandlers()
+        }
+
+        const showMessage = (type, msg) => {
+            $('#msg').addClass(`${type === 'danger' ? 'alert-danger' : 'alert-success'}`)
+            $('#msg').removeClass('d-none')
+            $('#msg').html(msg)
+
+            setTimeout(() => {
+                $('#msg').addClass('d-none')
+            }, 2500)
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Express App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul id="menu-links" class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/list"">List</a>
+                </li>
+                <li class=" nav-item">
+                        <a class="nav-link" href="/create">Create</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="result">
+
+        </div>
+        <div id="msg" class="alert d-none" role="alert"></div>
+
+    </div>
+</body>
+
+</html>
