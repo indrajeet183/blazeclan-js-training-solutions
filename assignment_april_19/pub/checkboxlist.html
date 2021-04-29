@@ -2,12 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Assignment - Dynamic Application</title>
+    <title>Assignment - CheckBox List</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../build/table.js"></script>
+    <script src="../build/checkbox.js"></script>
+    <style>
+        input[type=checkbox]::before,
+        input[type=checkbox]::after {
+            top: .8rem;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,33 +26,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/pub/">Table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pub/form.html">Form Generator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="string.html">String Utility</a>
+                </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Table</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="form.html">Form Generator</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">String Utility</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="checkboxlist.html">CheckBox List</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div id="main" class="container-fluid">
-        <div id="loader" class="d-none">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col">
+                <textarea name="input" id="input-array" cols="10" rows="20" class="form-control"></textarea>
+                <button class="btn btn-block btn-success mt-2" id="generate">Generate</button>
             </div>
-        </div>
-        <div id="main-table"></div>
-    </div>
-
-    <div class="container p-5">
-        <div id="logs" class="list-group">
-
+            <div class="col">
+                <form id="target-div"></form>
+            </div>
         </div>
     </div>
 </body>

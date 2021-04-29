@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script>
+        const getUserObjFromLocalStorage = () => {
+            if (!localStorage.getItem('user')) {
+                return false
+            }
+            return JSON.parse(localStorage.getItem('user'))
+        }
+
+        const initializeHandlers = () => {
+            const anchors = document.getElementById('menu-links').getElementsByTagName('a')
+            const user = getUserObjFromLocalStorage()
+
+            for (anchor of anchors) {
+                anchor.addEventListener('click', (e) => {
+                    console.log(e.target)
+                    const path = e.target.getAttribute('name')
+                    console.log(path)
+                    if (path !== '/login' && path !== '/logout') {
+                        console.log(user)
+                        Loader(true)
+                        fetch(`http://localhost:6060/${path}`, {
+                            headers: {
+                                'Authorization': `${user.userName}:${user.userPass}`
+                            }
+                        }).then((data) => {
+                            data.json().then((json) => {
+                                if (json.success) {
+                                    document.getElementById('page-result').innerHTML = json.data
+                                    Loader(false)
+                                    document.getElementById('navbarSupportedContent').className = 'collapse navbar-collapse'
+                                } else {
+                                    handleMessage('danger', json.message)
+                                    Loader(false)
+                                }
+                            })
+                        }).catch((err) => {
+                            handleMessage('danger', err.message)
+                            Loader(false)
+                        })
+                    } else if (path === '/logout') {
+                        localStorage.removeItem('user')
+                        setTimeout(() => {
+                            location.href = "/login"
+                        }, 1500)
+                    }
+                }, false)
+            }
+        }
+
+        const handleMessage = (type, message) => {
+            document.getElementById('fetch-result').className = document.getElementById('fetch-result').className.replace(' d-none', '')
+            document.getElementById('result').className = `alert alert-${type}`
+            document.getElementById('result').innerText = message
+
+            setTimeout(() => {
+                document.getElementById('fetch-result').className = 'card-footer d-none'
+            }, 3000)
+        }
+
+        const Loader = (status) => {
+            if (status) {
+                document.getElementById('loader').className = ''
+                document.getElementById('main').style.opacity = '0.2'
+            } else {
+                setTimeout(() => {
+                    document.getElementById('loader').className = 'd-none'
+                    document.getElementById('main').style.opacity = '1'
+                }, 800)
+            }
+        }
+
+        window.onload = () => {
+            const userObj = getUserObjFromLocalStorage()
+            console.log(userObj)
+            const anchors = document.getElementById('menu-links').getElementsByTagName('a')
+
+            if (userObj && (userObj.hasOwnProperty('userName') && userObj.hasOwnProperty('userPass'))) {
+                console.log('asdasd')
+                for (anchor of anchors) {
+                    if (anchor.getAttribute('name') !== '/login' && anchor.getAttribute('name') !== '/logout') {
+                        anchor.parentElement.className = "nav-item"
+                    }
+                }
+
+                document.getElementById('login-li').className += ' d-none'
+                document.getElementById('logout-li').className = 'nav-item'
+            } else {
+                for (anchor of anchors) {
+                    if (anchor.getAttribute('name') !== '/login' && anchor.getAttribute('name') !== '/logout') {
+                        anchor.parentElement.className = "nav-item d-none"
+                    }
+                }
+            }
+            initializeHandlers()
+        }
+    </script>
+
+    <style>
+        a {
+            cursor: pointer;
+        }
+
+        #loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">JS Assignment</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul id="menu-links" class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" name="manager">Manager</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" name="clerk">Clerk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" name="admin">Admin</a>
+                </li>
+                <li id="login-li" class="nav-item">
+                    <a class="nav-link" name="/login" href="/login">Login</a>
+                </li>
+                <li id="logout-li" class="nav-item d-none">
+                    <a class="nav-link" name="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="main" class="container-fluid">
+        <div id="loader" class="d-none">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id="page-result" class="container-fluid">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Node Web Server</h1>
+                    <p class="lead">Simple Node Web server with Role Access</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="fetch-result" class="card-footer d-none">
+            <div id="result" role="alert">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

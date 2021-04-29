@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Assignment - String Utility</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../build/string.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">JS Assignment</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/pub/">Table</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/pub/form.html">Form Generator</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="string.html">String Utility</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="checkboxlist.html">CheckBox List</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container p-2">
+    <h1 class="text-center">Encryption/Decryption</h1>
+    <div class="container-fluid p-3">
+      <form>
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Source String" id="encrypt-source-str">
+          </div>
+          <div>
+            <button id="btn-encrypt" class="btn btn-success"><i class="fas fa-chevron-circle-right"></i></button>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Encrypted String" id="encrypt-target-str" disabled>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container-fluid p-3">
+      <form>
+        <div class="row">
+          <div class="col">
+            <input type="text" disabled class="form-control" placeholder="Decrypted String" id="decrypt-source-str">
+          </div>
+          <div>
+            <button id="btn-decrypt" class="btn btn-success"><i class="fas fa-chevron-circle-left"></i></button>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Encrypted String" id="decrypt-target-str">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="container">
+    <h1 class="text-center">Numbers</h1>
+    <div class="container-fluid p-3">
+      <form>
+        <div class="row">
+          <div class="col">
+            <input type="number" class="form-control" placeholder="Enter Number" id="number-source-str">
+          </div>
+          <div>
+            <button id="btn-number-to-string" class="btn btn-success"><i
+                class="fas fa-chevron-circle-right"></i></button>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Converted String" id="number-target-str" disabled>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container-fluid p-3">
+      <form>
+        <div class="row">
+          <div class="col">
+            <input type="text" disabled class="form-control" placeholder="Converted Number" id="string-num-source-str">
+          </div>
+          <div>
+            <button id="btn-string-to-number" class="btn btn-success"><i
+                class="fas fa-chevron-circle-left"></i></button>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Number String" id="string-number-target-str">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

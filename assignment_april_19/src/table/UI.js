@@ -15,6 +15,7 @@ class UI {
         this.sort_type = "asc"
         this.target_class = target_class
         this.target_validator = target_validator
+        this.check_all = false
     }
 
     subscribe = (event, callback) => {
@@ -36,9 +37,9 @@ class UI {
 
 
     generateHeader = (headers, can_edit, can_delete) => {
-        let headerResult = ""
+        let headerResult = `<td>${this.Input('boolean', '', '', false, "check-all")}</td>`
         if (headers.length) {
-            headerResult = headers.map((header) => {
+            headerResult += headers.map((header) => {
                 return `<th id="sort-${header}">
                             <span>${header}</span> 
                             <span class="table-header-icon">
@@ -48,7 +49,12 @@ class UI {
             }).join("")
 
             if (can_edit || can_delete) {
-                headerResult += `<th colspan="3">Actions</th>`
+                headerResult += `<th colspan="3">
+                            <select id="bulk-action" class="form-control form-control-sm">
+                            <option value="">Bulk Action</option>
+                            ${can_edit ? '<option value="edit">Edit</option>' : ''}
+                            ${can_delete ? '<option value="delete">Delete</option>' : ''}
+                            </select></th>`
             }
 
             headerResult = `<tr>${headerResult}</tr>`
@@ -71,15 +77,15 @@ class UI {
 
         let footer = `<tfoot>
         <tr>
-            <td class="table-footer-left-arrow${this.current_page===1?' icon-disable':''}">
+            <td class="table-footer-left-arrow${this.current_page === 1 ? ' icon-disable' : ''}">
                 <i id="left-icon" class="fas fa-chevron-left"></i>
             </td>
             <td>Page No</td>                            
     `
         console.log(this.current_page)
-        console.log(pageArray[pageArray.length-1])
+        console.log(pageArray[pageArray.length - 1])
         footer += `<td>`.concat(this.Select(pageArray, 'table-page-select', this.current_page)).concat('</td>')
-        footer += `<td colspan="3" class="table-footer-right-arrow${this.current_page===pageArray[pageArray.length-1]?' icon-disable':''}"><i id="right-icon" class="fas fa-chevron-right"></i></td>`
+        footer += `<td colspan="3" class="table-footer-right-arrow${this.current_page === pageArray[pageArray.length - 1] ? ' icon-disable' : ''}"><i id="right-icon" class="fas fa-chevron-right"></i></td>`
         footer += `<td>Page Size</td>`
         footer += `<td colspan="2">`.concat(this.Select(pageSize, 'table-page-size-select', this.page_size)).concat('</td>')
         footer += "</tr></tfoot>"
@@ -124,7 +130,7 @@ class UI {
                 </td>`
     }
 
-    generateTable = (log=true) => {
+    generateTable = (log = true) => {
         this.Loader(true)
 
         //clearTimeout(loadStart)
@@ -135,7 +141,8 @@ class UI {
             table += `${header}</thead><tbody>`
             const resultSet = this.#datasource.slice(this.offset, this.limit)
             table += resultSet.map((datasource, _index) => {
-                let tds = Object.keys(datasource).map((key) => {
+                let tds = `<td>${this.Input('boolean', 'table-row-checkbox', _index, false, `table-row-check-${_index}`)}</td>`
+                tds += Object.keys(datasource).map((key) => {
                     return `<td name="${key}">${datasource[key]}</td>`
                 }).join('')
 
@@ -151,16 +158,16 @@ class UI {
             }).join('')
         } else {
             table = 'No data!'
-            this.publish('debug',{type:'danger',msg:`Failed to Generate Table no data found!`})
+            this.publish('debug', { type: 'danger', msg: `Failed to Generate Table no data found!` })
         }
         table += "</tbody>"
 
         table += this.generateFooter()
 
         table += "</table>"
-        
-        this.publish('table-generate', table)        
-        if(log) this.publish('debug',{type:'success',msg:`Table Generated Successfully with ${this.#datasource.length} rows!`})
+
+        this.publish('table-generate', table)
+        if (log) this.publish('debug', { type: 'success', msg: `Table Generated Successfully with ${this.#datasource.length} rows!` })
         this.Loader(false)
     }
 
@@ -180,15 +187,15 @@ class UI {
         let input = false
         switch (type) {
             case 'text': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type=${type} value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type="${type}" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
             case 'number': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type=${type} value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type="${type}" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
             case 'boolean': {
-                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-control${className.length ? ' ' + className : ""}" type=${type} value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
+                input = `<input ${id.length ? 'id="' + id + '"' : ''} class="form-check-input${className.length ? ' ' + className : ""}" type="checkbox" value="${value}" name="${placholder}" ${disabled ? "disabled" : ""}></input>`
                 break
             }
             case 'date': {
@@ -245,7 +252,7 @@ class UI {
         this.page_size = parseInt(e.target.value)
         console.log(this.current_page, this.page_size, this.offset, this.limit)
         this.generateTable(false)
-        this.publish('debug',{type:'success',msg:`Changed page size to ${e.target.value}!`})
+        this.publish('debug', { type: 'success', msg: `Changed page size to ${e.target.value}!` })
     }
 
     onHandleChangePage = (e) => {
@@ -259,10 +266,10 @@ class UI {
     onHandleSort = (e) => {
 
         let sortField = e.path[2].id.replace('sort-', '')
-        if(e.target.tagName === 'SPAN') {
+        if (e.target.tagName === 'SPAN') {
             sortField = e.path[1].id.replace('sort-', '')
         }
-        
+
         this.sort_field = sortField
 
         if (this.sort_type === 'asc') this.sort_type = 'desc'
@@ -296,24 +303,30 @@ class UI {
                 }
             }
         })
-        this.publish('debug',{type:'success',msg:`Sorted table by ${sortField} in ${this.sort_type==='asc'?'Ascending':'Descending!!'}`})
+        this.publish('debug', { type: 'success', msg: `Sorted table by ${sortField} in ${this.sort_type === 'asc' ? 'Ascending' : 'Descending!!'}` })
         this.generateTable(false)
     }
 
     onHandleEdit = (e) => {
         this.Loader(true)
         const rowId = e.path[2].id
-        const editableRowId = rowId.replace('table-row', 'table-row-edit')
-        const editBtnId = rowId.replace('table-row', 'table-action-edit')
-        const updateBtnId = rowId.replace('table-row', 'table-action-update')
-        const cancelBtnId = rowId.replace('table-row', 'table-action-cancel')
+        //console.log(rowId)
+        console.log(rowId, rowId.split('-')[rowId.split('-').length - 1])
+        this.toggleEditRow(rowId, rowId.split('-')[rowId.split('-').length - 1])
+        this.Loader(false)
+    }
+
+    toggleEditRow = (rowId, id) => {
+        const editableRowId = 'table-row-edit-'.concat(id)
+        const editBtnId = 'table-action-edit-'.concat(id)
+        const updateBtnId = 'table-action-update-'.concat(id)
+        const cancelBtnId = 'table-action-cancel-'.concat(id)
         console.log(editBtnId, updateBtnId, cancelBtnId)
         document.getElementById(rowId).className += 'd-none'
         document.getElementById(editableRowId).className = document.getElementById(editableRowId).className.replace('d-none', '')
         document.getElementById(editBtnId).className = document.getElementById(editBtnId).className.concat('d-none')
         document.getElementById(updateBtnId).className = document.getElementById(updateBtnId).className.replace('d-none', '')
-        document.getElementById(cancelBtnId).className = ''        
-        this.Loader(false)
+        document.getElementById(cancelBtnId).className = ''
     }
 
     onHandleCancel = (e) => {
@@ -383,9 +396,9 @@ class UI {
                         td.innerText = tempObj[td.getAttribute('name')]
                 }
                 this.publish('table-update', this.#datasource[rowId])
-                this.publish('debug',{type:'success',msg:`Updated table row Successfully! ${JSON.stringify(this.#datasource[rowId])}`})
-            }else {
-                this.publish('debug',{type:'danger',msg:`Failed to update row, Please enter valid data! ${JSON.stringify(tempObj)}`})
+                this.publish('debug', { type: 'success', msg: `Updated table row Successfully! ${JSON.stringify(this.#datasource[rowId])}` })
+            } else {
+                this.publish('debug', { type: 'danger', msg: `Failed to update row, Please enter valid data! ${JSON.stringify(tempObj)}` })
             }
             //console.log(this.#datasource)
         }
@@ -396,11 +409,15 @@ class UI {
     onHandleDelete = (e) => {
         const row = e.path[3]
         const rowId = row.id.split('-')[row.id.split('-').length - 1]
-        // console.log(rowId)
-        const tempOb = this.#datasource.splice(rowId, 1)
-        this.publish('table-delete', tempOb[0])
-        this.publish('debug',{type:'success',msg:`Deleted table row Successfully! ${JSON.stringify(tempOb[0])}`})
+        // console.log(rowId)        
+        this.deleteFromDataSource(rowId, 1)
         this.generateTable(false)
+    }
+
+    deleteFromDataSource = (pos, nrow) => {
+        const tempOb = this.#datasource.splice(pos, nrow)
+        this.publish('table-delete', tempOb[0])
+        this.publish('debug', { type: 'success', msg: `Deleted table row Successfully! ${JSON.stringify(tempOb[0])}` })
     }
 
     onHandleActionButtons = (e) => {
@@ -410,18 +427,69 @@ class UI {
         else if (e.target.parentElement.id.includes('delete')) this.onHandleDelete(e)
     }
 
+    onHandleCheckAll = (e) => {
+        const checkboxes = document.getElementById('ui-table').getElementsByClassName('form-check-input')
+        if (e.target.checked) {
+            for (let checkbox of checkboxes) {
+                checkbox.checked = true
+            }
+        } else {
+            for (let checkbox of checkboxes) {
+                checkbox.checked = false
+                this.onHandleCancel()
+            }
+        }
+        console.log(this.limit, this.offset)
+        //const tempOb = this.#datasource.splice(rowId, 1)
+    }
+
+    getCheckedRow = () => {
+        const checkboxesElements = document.getElementById('ui-table').getElementsByClassName('form-check-input')
+        let checkedBoxes = []
+        for (let checkbox of checkboxesElements) {
+            if (checkbox.checked)
+                checkedBoxes.push(checkbox)
+        }
+        //console.log(checkedBoxes)
+        return checkedBoxes
+    }
+
+    onHandleBulkAction = (e) => {
+        console.log(e.target.value)
+        const checkedRows = this.getCheckedRow()
+        console.log(checkedRows)
+        if (checkedRows.length > 0) {
+            if (e.target.value === 'edit') {
+                checkedRows.forEach((row) => {
+                    if (row.id !== 'check-all')
+                        this.toggleEditRow('table-row-' + row.value, row.value)
+                })
+            } else if (e.target.value === 'delete') {
+                checkedRows.forEach((row) => {
+                    this.deleteFromDataSource(row.value, 1)
+                })
+                this.generateTable(false)
+            }
+        } else {
+            this.publish('debug', { type: 'danger', msg: 'No rows are selected!' })
+        }
+    }
+
     initializeHandlers() {
         document.getElementById('right-icon').addEventListener('click', this.onnHandleNextPage, false)
         document.getElementById('left-icon').addEventListener('click', this.onnHandlePreviousPage, false)
         document.getElementById('table-page-size-select').addEventListener('click', this.onHandleChangePageSize, false)
         document.getElementById('table-page-select').addEventListener('click', this.onHandleChangePage, false)
+        document.getElementById('check-all').addEventListener('click', this.onHandleCheckAll, false)
         const ths = document.getElementById('ui-table').getElementsByTagName('th')
         for (let th of ths) {
-            th.addEventListener('click', this.onHandleSort, false)
+            if (th.id.length > 0)
+                th.addEventListener('click', this.onHandleSort, false)
         }
         const actionBtns = document.getElementsByClassName('table-action-btn')
         for (let btn of actionBtns) {
             btn.addEventListener('click', this.onHandleActionButtons, false)
         }
+        document.getElementById('bulk-action').addEventListener('change', this.onHandleBulkAction, false)
     }
 }
